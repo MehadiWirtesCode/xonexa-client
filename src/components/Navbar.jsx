@@ -98,7 +98,7 @@ useEffect(()=>{
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
-          <div className="hidden md:flex justify-center items-center gap-2">
+          <div className="flex justify-center items-center gap-2">
             <img
               src="/images/logo.png"
               alt=""
@@ -287,10 +287,10 @@ useEffect(()=>{
                 if (token) {     
                  
                   if(localStorage.getItem("role")==="1"){
-                      window.location.href = "/admindashboard";
+                      navigate("/admindashboard");
                   }
                   else{
-                    window.location.href = "/userdashboard";
+                    navigate("/userdashboard");
                   }
 
                 }
