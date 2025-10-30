@@ -230,7 +230,7 @@ export const ProductDetails = () => {
               <button
                 onClick={handelAddCart}
                 type="button"
-                className="w-full px-4 py-2.5 cursor-pointer border border-slate-800 bg-transparent hover:bg-slate-50 text-slate-900 text-sm font-medium rounded-md"
+                className="w-full px-4 py-2.5 cursor-pointer border border-slate-800 bg-transparent hover:bg-slate-50 active:bg-blue-600 active:text-white text-slate-900 text-sm font-medium rounded-md"
               >
                 Add to cart
               </button>
