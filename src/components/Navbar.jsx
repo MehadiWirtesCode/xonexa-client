@@ -1,5 +1,5 @@
 import { IoCartOutline } from "react-icons/io5";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { CiSearch, CiLogout } from "react-icons/ci";
 import { useContext, useEffect, useState } from "react";
 import LogoutModal from "./LogoutModal";
@@ -10,7 +10,7 @@ import { CartDataContext } from "./allProductDataConext/cartDataContext";
 
 const Navbar = ({ loginOpen, setLoginOpen, signupOpen, setSignupOpen }) => {
 
-  
+    const navigate = useNavigate();
 
   const {setProducts} = useContext(AllProductDataContext);
   const {totalCartItem,setTotalCartItem}= useContext(CartDataContext);
@@ -122,10 +122,10 @@ useEffect(()=>{
                 if (token) {     
                  
                   if(localStorage.getItem("role")=== "1"){
-                      window.location.href = "/admindashboard";
+                      navigate(`/admindashboard`);
                   }
                   else{
-                    window.location.href = "/userdashboard";
+                    navigate(`/userdashboard`);
                   }
 
                 }
