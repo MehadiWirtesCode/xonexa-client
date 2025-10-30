@@ -20,7 +20,6 @@ Key Features
 
 ## Tech Stack
 
-|-------------|--------------------------------------|-------------------------------------------------------------------------|
 | Category    | Technology                           | Purpose                                                                 |
 |-------------|--------------------------------------|------------------------------------------------------------------------ |
 | Frontend    | React (Vite), Tailwind CSS           | Component-based UI development and modern styling.                      |
@@ -30,7 +29,7 @@ Key Features
 | Security    | JWT, Bcrypt                          | Secure user sessions and password encryption.                           |
 | Media/Files | Cloudinary, Multer                   | Efficient handling and storage of product images.                       |
 | Deployment  | Vercel (Client), Render (Server)     | Continuous Integration/Continuous Deployment (CI/CD) setup.             |
-|-------------|--------------------------------------|-------------------------------------------------------------------------|
+
 
 🤝 Contribution
 Feel free to open issues or submit pull requests if you find any bugs or wish to implement new features.
