@@ -252,13 +252,13 @@ useEffect(()=>{
             </button>
             <nav className="mt-4 flex flex-col space-y-3">
               <a
-                href="#"
+                href="/about-us"
                 className="text-gray-700 hover:text-indigo-600 active:bg-indigo-7"
               >
                 About us
               </a>
               <a
-                href="#"
+                href="/shop"
                 className="text-gray-700 hover:text-indigo-600 active:bg-indigo-7"
               >
                 Shop
