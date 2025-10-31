@@ -63,35 +63,38 @@ const Navbar = ({ loginOpen, setLoginOpen, signupOpen, setSignupOpen }) => {
 
 
  // Total cart item shows 
-useEffect(()=>{
-     const token = localStorage.getItem('token')
-    const decoded = jwtDecode(token);
-    const user_id = decoded.id;
-    console.log(`userId `,user_id);
-  
-  if(localStorage.getItem("token")){
-   axios.get(`${import.meta.env.VITE_PRODUCT_URL}/gettotalcartcount`,{
-        params:{
-      user_id:user_id}
+ useEffect(() => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      const user_id = decoded.id;
+      console.log(`userId`, user_id);
+
+      axios.get(`${import.meta.env.VITE_PRODUCT_URL}/gettotalcartcount`, {
+        params: { user_id }
+      })
+      .then(res => {
+        setTotalCartItem(res.data?.count);
+        console.log(res.data?.message);
+      })
+      .catch(err => {
+        console.log(err.response?.data?.message);
+      });
+
+    } catch (err) {
+      console.error("Invalid token", err);
+      setTotalCartItem(0); // fallback
     }
-
-    )
-   .then(res =>{
-      setTotalCartItem(res.data?.count)
-      console.log(res.data?.message)
-   })
-   .catch(err =>{
-    console.log(err.response?.data?.message);
-   })}
-
-   else{
+  } else {
     const localCart = JSON.parse(localStorage.getItem("cartItems")) || [];
     const totalQty = localCart.reduce((sum, item) => sum + item.quantity, 0);
     setTotalCartItem(totalQty);
     console.log("Total cart quantity loaded from localStorage");
-   }
-},[setTotalCartItem])
-  
+  }
+}, [setTotalCartItem]);
+
 
   return (
     <header className="bg-white shadow sticky top-0 z-50">

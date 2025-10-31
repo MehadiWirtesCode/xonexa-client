@@ -10,7 +10,7 @@ import { SettingsModal } from "./SettingsModal";
 const navLinks = ["Dashboard", "Orders", "Analytics", "Settings"];
 
 
-const Sidebar = ({ isMenuOpen, toggleMenu }) => {
+const Sidebar = ({ isMenuOpen, toggleMenu ,setIsLoggedIn}) => {
 
   const [logoutModal,setLogoutModal] = useState(false);
   const token = localStorage.getItem("token")
@@ -116,6 +116,7 @@ const Sidebar = ({ isMenuOpen, toggleMenu }) => {
         <LogoutModal
           logoutModal={logoutModal}
           setLogoutModal={setLogoutModal}
+          setIsLoggedIn={setIsLoggedIn}
         />
       )}
 

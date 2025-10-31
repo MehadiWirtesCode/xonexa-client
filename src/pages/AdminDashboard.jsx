@@ -13,7 +13,7 @@ import { UsersContext } from "../contextApi/UserContextApi";
 import { UserListModal } from "../components/AdminDashboardSeperateComponenets/UserListModal";
 import ProductListModal from "../components/AdminDashboardSeperateComponenets/ProductListModal";
 
-export default function AdminDashboard({ setAlert, setMessage }) {
+export default function AdminDashboard({ setAlert, setMessage ,setIsLoggedIn}) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -147,6 +147,7 @@ export default function AdminDashboard({ setAlert, setMessage }) {
         <LogoutModal
           logoutModal={logoutModal}
           setLogoutModal={setLogoutModal}
+          setIsLoggedIn={setIsLoggedIn}
         />
       )}
       {deleteModal && (

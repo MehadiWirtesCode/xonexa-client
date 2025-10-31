@@ -7,7 +7,7 @@ import Sidebar from "../components/userDashboardSeperateComponents/Sidebar";
 import { jwtDecode } from "jwt-decode";
 import { IoDiamondOutline } from "react-icons/io5";
 
-const UserDashboard = () => {
+const UserDashboard = ({setIsLoggedIn}) => {
   // State for mobile menu control (Sidebar visibility)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -60,7 +60,7 @@ const UserDashboard = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-100 font-inter">
-      <Sidebar isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
+      <Sidebar isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} setIsLoggedIn={setIsLoggedIn} />
 
       <div className="flex-1 overflow-y-auto">
         {/* Mobile Header Bar (Only visible on mobile) */}
