@@ -1,7 +1,7 @@
 import { LogOut, X } from 'lucide-react';
-import {useNavigate} from 'react-router-dom'
-const LogoutModal = ({logoutModal,setLogoutModal,setIsLoggedIn}) => {
-  const navigate=useNavigate();
+
+const LogoutModal = ({logoutModal,setLogoutModal,setIsLoggedIn,navigate}) => {
+
   const display = logoutModal ? "flex": "hidden";
 
   const handleLogout = () => {

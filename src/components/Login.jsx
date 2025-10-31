@@ -8,6 +8,7 @@ export const Login = ({
   setSignupOpen,
   setAlert,
   setMessage,
+  setIsLoggedIn
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,6 +29,7 @@ export const Login = ({
       .then((res) => {
         console.log(res.data.message);
         setLoginOpen(false);
+        setIsLoggedIn(true)
         setAlert(true);
         
         if (res.data.token) {
@@ -68,6 +70,7 @@ export const Login = ({
 
         console.log("✅ Backend response:", res.data.message);
         setLoginOpen(false);
+        setIsLoggedIn(true);
         setAlert(true);
           if (res.data.token) {
          localStorage.setItem("token", res.data.token);

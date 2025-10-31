@@ -12,8 +12,10 @@ import LogoutModal from "../components/LogoutModal";
 import { UsersContext } from "../contextApi/UserContextApi";
 import { UserListModal } from "../components/AdminDashboardSeperateComponenets/UserListModal";
 import ProductListModal from "../components/AdminDashboardSeperateComponenets/ProductListModal";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard({ setAlert, setMessage ,setIsLoggedIn}) {
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -148,6 +150,7 @@ export default function AdminDashboard({ setAlert, setMessage ,setIsLoggedIn}) {
           logoutModal={logoutModal}
           setLogoutModal={setLogoutModal}
           setIsLoggedIn={setIsLoggedIn}
+          navigate={navigate}
         />
       )}
       {deleteModal && (

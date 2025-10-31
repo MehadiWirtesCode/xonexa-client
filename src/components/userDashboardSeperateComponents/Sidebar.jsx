@@ -6,12 +6,14 @@ import { CiLogout } from "react-icons/ci";
 import { BuyedProductListModal } from "./BuyedProductList";
 import { AnalyticsModal } from "./AanlyticsModal";
 import { SettingsModal } from "./SettingsModal";
+import { useNavigate } from "react-router-dom";
 // Navigation links array for clean rendering
 const navLinks = ["Dashboard", "Orders", "Analytics", "Settings"];
 
 
 const Sidebar = ({ isMenuOpen, toggleMenu ,setIsLoggedIn}) => {
 
+  const navigate = useNavigate();
   const [logoutModal,setLogoutModal] = useState(false);
   const token = localStorage.getItem("token")
   const decoded = jwtDecode(token);
@@ -117,6 +119,7 @@ const Sidebar = ({ isMenuOpen, toggleMenu ,setIsLoggedIn}) => {
           logoutModal={logoutModal}
           setLogoutModal={setLogoutModal}
           setIsLoggedIn={setIsLoggedIn}
+          navigate={navigate}
         />
       )}
 

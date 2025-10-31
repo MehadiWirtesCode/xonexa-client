@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import {useGoogleLogin} from '@react-oauth/google'
-export const Signup = ({signupOpen,setSignupOpen,setLoginOpen,setAlert,setMessage}) => {
+export const Signup = ({signupOpen,setSignupOpen,setLoginOpen,setAlert,setMessage,setIsLoggedIn}) => {
 
     const[invalidText,setInvalidText] = useState(false);
     const[messageText,setMessageText] = useState("");
@@ -29,6 +29,7 @@ export const Signup = ({signupOpen,setSignupOpen,setLoginOpen,setAlert,setMessag
       .then(res => {
         console.log(res.data.message);
         setSignupOpen(false);
+        setIsLoggedIn(true)
         setAlert(true);
         setInvalidText(false);
         if (res.data.token) {
@@ -80,6 +81,7 @@ export const Signup = ({signupOpen,setSignupOpen,setLoginOpen,setAlert,setMessag
          localStorage.setItem("role", res.data.role);
         }
         setSignupOpen(false);
+        setIsLoggedIn(true)
       
       } catch (err) {
           setInvalidText(true);
