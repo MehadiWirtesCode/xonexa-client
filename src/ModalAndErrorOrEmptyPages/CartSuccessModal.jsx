@@ -47,7 +47,7 @@ const CartSuccessModal = ({setOpenModal,productDetails,selectedSize}) => {
                     <div className="mt-4 flex items-center">
                         <div className="flex-shrink-0 w-16 h-16 bg-gray-100 rounded-lg mr-4 flex items-center justify-center border border-gray-200">
                             {/* Placeholder for Product Image */}
-                            <img src={productDetails?.images[0]}
+                            <img src={productDetails?.images[0]?.replace("/upload/", "/upload/w_500,q_auto,f_auto/")}
                              alt={`${productDetails?.name}`}/>
                         </div>
                         <div className="flex-grow">

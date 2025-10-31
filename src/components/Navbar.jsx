@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useRef } from "react";
 import { AllProductDataContext } from "./allProductDataConext/allProductConext";
 import { CartDataContext } from "./allProductDataConext/cartDataContext";
+import {jwtDecode} from 'jwt-decode'
 
 const Navbar = ({ loginOpen, setLoginOpen, signupOpen, setSignupOpen }) => {
 
@@ -14,7 +15,10 @@ const Navbar = ({ loginOpen, setLoginOpen, signupOpen, setSignupOpen }) => {
 
   const {setProducts} = useContext(AllProductDataContext);
   const {totalCartItem,setTotalCartItem}= useContext(CartDataContext);
-
+   //Seacrh Logic 
+  const [searchTerm,setSearchTerm] = useState("");
+  const [results,setResults] = useState([]);
+  
   const debouncerTimer = useRef (null);
   const location = useLocation();
 
@@ -36,10 +40,6 @@ const Navbar = ({ loginOpen, setLoginOpen, signupOpen, setSignupOpen }) => {
   };
 
 
-  //Seacrh Logic 
-  const [searchTerm,setSearchTerm] = useState("");
-  const [results,setResults] = useState([]);
-
  useEffect(() => {
     if (!searchTerm) {
         setResults([]);
@@ -50,8 +50,8 @@ const Navbar = ({ loginOpen, setLoginOpen, signupOpen, setSignupOpen }) => {
       try {
 
         const res = await axios.get(`${import.meta.env.VITE_PRODUCT_URL}/search?text=${searchTerm}`);
-        setResults(res.data.searchItems || []);
-        setProducts(res.data.searchItems);
+        setResults(res.data?.searchItems || []);
+        setProducts(res.data?.searchItems);
 
       } catch (err) {
         console.error(err);
@@ -64,24 +64,24 @@ const Navbar = ({ loginOpen, setLoginOpen, signupOpen, setSignupOpen }) => {
 
  // Total cart item shows 
 useEffect(()=>{
-    //  const token = localStorage.getItem('token')
-    // const decoded = jwtDecode(token);
-    // const user_id = decoded.id;
-    // console.log(user_id);
-    // ,{
-    // params:{
-    //   user_id:user_id}
-    // }
-
+     const token = localStorage.getItem('token')
+    const decoded = jwtDecode(token);
+    const user_id = decoded.id;
+    console.log(`userId `,user_id);
+  
   if(localStorage.getItem("token")){
-   axios.get(`${import.meta.env.VITE_PRODUCT_URL}/gettotalcartcount`
+   axios.get(`${import.meta.env.VITE_PRODUCT_URL}/gettotalcartcount`,{
+        params:{
+      user_id:user_id}
+    }
+
     )
    .then(res =>{
-      setTotalCartItem(res.data.count)
-      console.log(res.data.message)
+      setTotalCartItem(res.data?.count)
+      console.log(res.data?.message)
    })
    .catch(err =>{
-    console.log(err.response.data.message);
+    console.log(err.response?.data?.message);
    })}
 
    else{
@@ -213,7 +213,8 @@ useEffect(()=>{
             >
               <IoCartOutline className="text-3xl" />
               <span className="absolute -top-1 -right-1 bg-red-600 text-white rounded-full text-xs px-1">
-                {totalCartItem}
+                {totalCartItem === null ? "-" : totalCartItem}
+
               </span>
             </NavLink>
 

@@ -99,6 +99,10 @@ export const ProductDetails = () => {
     }
   };
 
+  const optimizedImages = productDetails?.images?.map(img =>
+  img.replace("/upload/", "/upload/w_800,q_auto,f_auto/")
+ );
+
   return (
     <>
       <div className="p-2 lg:p-20">
@@ -109,7 +113,7 @@ export const ProductDetails = () => {
                 <img
                   loading="lazy"
                   src={
-                    productDetails?.images[0]}
+                      optimizedImages?.[0]}
 
                   alt={productDetails?.name}
                   className="w-full aspect-[253/337] object-cover object-top shadow-md hover:scale-[1.05] transition-all duration-300"
@@ -119,7 +123,7 @@ export const ProductDetails = () => {
                 <img
                   loading="lazy"
                   src={
-                    productDetails?.images[1]}
+                    optimizedImages?.[1]}
                   alt={productDetails?.name}
                   className="w-full aspect-[253/337] object-cover object-top shadow-md hover:scale-[1.05] transition-all duration-300"
                 />
@@ -128,7 +132,7 @@ export const ProductDetails = () => {
                 <img
                   loading="lazy"
                   src={
-                    productDetails?.images[2]}
+                    optimizedImages?.[2]}
                   alt={productDetails?.name}
                   className="w-full aspect-[253/337] object-cover object-top shadow-md hover:scale-[1.05] transition-all duration-300"
                 />
@@ -137,7 +141,7 @@ export const ProductDetails = () => {
                 <img
                   loading="lazy"
                   src={
-                    productDetails?.images[3]}
+                    optimizedImages?.[3]}
                   alt={productDetails?.name}
                   className="w-full aspect-[253/337] object-cover object-top shadow-md hover:scale-[1.05] transition-all duration-300"
                 />
@@ -147,7 +151,7 @@ export const ProductDetails = () => {
               <img
                 loading="lazy"
                 src={
-                  productDetails?.images[4]}
+                  optimizedImages?.[4]}
                 alt={productDetails?.name}
                 className="w-full aspect-[3/4] object-cover object-top shadow-md hover:scale-[1.05] transition-all duration-300"
               />

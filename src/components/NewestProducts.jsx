@@ -12,6 +12,9 @@ const ProductCard = ({ product }) => {
       ? "bg-green-50 text-green-700 ring-green-600/20"
       : "bg-red-50 text-red-700 ring-red-600/20";
 
+  const optimizedImage =
+  product?.images?.[0]?.replace("/upload/", "/upload/w_500,q_auto,f_auto/");
+
   return (
     <div
       onClick={() => navigate(`/productdetails/${product.id}`)}
@@ -23,7 +26,7 @@ const ProductCard = ({ product }) => {
   
       <div className="w-full h-48 sm:h-52 md:h-56 overflow-hidden">
         <img
-          src={product?.images[0]}
+          src={optimizedImage}
           alt={product?.name}
           className="w-full h-full object-cover object-center transition-all duration-200"
           onError={(e) => {

@@ -144,66 +144,123 @@ export const Cart = ({ setLoginOpen }) => {
   };
 
   //decrement handler
-  const decrementHandler = (item) => {
-    if (localStorage.getItem("token")) {
-      setCartItems((prevItems) =>
-        prevItems.map((cartItem) => {
-          if (cartItem.cart_id === item.cart_id) {
-            const newQuantity = Number(item.quantity) - 1;
 
-            setCartItems((prev) =>
-              prev.map((ci) =>
-                ci.cart_id === item.cart_id
-                  ? { ...ci, quantity: newQuantity}
-                  : ci
-              )
-            );
+  // Decrement handler
+const decrementHandler = (item) => {
+  // Prevent decreasing below 1
+  if (item.quantity <= 1) return;
 
-            // totalCartItem update
-            setTotalCartItem((prev) => Number(prev) - 1);
+  if (localStorage.getItem("token")) {
+    const updatedItems = cartItems.map((cartItem) => {
+      if (cartItem.cart_id === item.cart_id) {
+        const newQuantity = Number(cartItem.quantity) - 1;
 
-            // backend
-            axios
-              .patch(`${import.meta.env.VITE_PRODUCT_URL}/updatecartitem`, {
-                cart_id: item.cart_id,
-                quantity: newQuantity,
-              })
-              .then((res) => console.log(res.data.message))
-              .catch((err) => console.log(err.response?.data?.message));
-
-            return {
-              ...cartItem,
-              quantity: newQuantity,
-            };
-          } else {
-            return cartItem;
-          }
-        })
-      );
-    } 
-
-    else {
-      const localCart = JSON.parse(localStorage.getItem("cartItems")) || [];
-
-      const updatedCart = localCart.map((ci) => {
-        if (ci.product_id === item.product_id && ci.size === item.size) {
-          const newQuantity = Number(ci.quantity) - 1;
-
-          return {
-            ...ci,
+        // Backend update
+        axios
+          .patch(`${import.meta.env.VITE_PRODUCT_URL}/updatecartitem`, {
+            cart_id: cartItem.cart_id,
             quantity: newQuantity,
-          };
-        }
-        return ci;
-      });
+          })
+          .then((res) => console.log(res.data.message))
+          .catch((err) => console.log(err.response?.data?.message));
 
-      setCartItems(updatedCart);
+        return { ...cartItem, quantity: newQuantity };
+      }
+      return cartItem;
+    });
 
-      // total quantity update
-      const totalQty = updatedCart.reduce((sum, ci) => sum + ci.quantity, 0);
-      setTotalCartItem(totalQty);
-    }
-  };
+    setCartItems(updatedItems);
+
+    // Update totalCartItem safely
+    const totalQty = updatedItems.reduce(
+      (sum, ci) => sum + Number(ci.quantity),
+      0
+    );
+    setTotalCartItem(totalQty);
+  } else {
+    // Local storage cart
+    const localCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+    const updatedCart = localCart.map((ci) => {
+      if (ci.product_id === item.product_id && ci.size === item.size) {
+        const newQuantity = Number(ci.quantity) - 1;
+        return { ...ci, quantity: newQuantity };
+      }
+      return ci;
+    });
+
+    setCartItems(updatedCart);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+
+    // Update totalCartItem safely
+    const totalQty = updatedCart.reduce(
+      (sum, ci) => sum + Number(ci.quantity),
+      0
+    );
+    setTotalCartItem(totalQty);
+  }
+};
+
+  // const decrementHandler = (item) => {
+  //   if (localStorage.getItem("token")) {
+  //     setCartItems((prevItems) =>
+  //       prevItems.map((cartItem) => {
+  //         if (cartItem.cart_id === item.cart_id) {
+  //           const newQuantity = Number(item.quantity) - 1;
+
+  //           setCartItems((prev) =>
+  //             prev.map((ci) =>
+  //               ci.cart_id === item.cart_id
+  //                 ? { ...ci, quantity: newQuantity}
+  //                 : ci
+  //             )
+  //           );
+
+  //           // totalCartItem update
+  //           setTotalCartItem((prev) => Number(prev) - 1);
+
+  //           // backend
+  //           axios
+  //             .patch(`${import.meta.env.VITE_PRODUCT_URL}/updatecartitem`, {
+  //               cart_id: item.cart_id,
+  //               quantity: newQuantity,
+  //             })
+  //             .then((res) => console.log(res.data.message))
+  //             .catch((err) => console.log(err.response?.data?.message));
+
+  //           return {
+  //             ...cartItem,
+  //             quantity: newQuantity,
+  //           };
+  //         } else {
+  //           return cartItem;
+  //         }
+  //       })
+  //     );
+  //   } 
+
+  //   else {
+  //     const localCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+  //     const updatedCart = localCart.map((ci) => {
+  //       if (ci.product_id === item.product_id && ci.size === item.size) {
+  //         const newQuantity = Number(ci.quantity) - 1;
+
+  //         return {
+  //           ...ci,
+  //           quantity: newQuantity,
+  //         };
+  //       }
+  //       return ci;
+  //     });
+
+  //     setCartItems(updatedCart);
+
+  //     // total quantity update
+  //     const totalQty = updatedCart.reduce((sum, ci) => sum + ci.quantity, 0);
+  //     setTotalCartItem(totalQty);
+  //   }
+  // };
 
 
   //subTotal 
@@ -251,7 +308,7 @@ const calculateSubtotal = (items) => {
                         onClick={() =>
                           navigate(`/productdetails/${items.product_id}`)
                         }
-                        src={items.image}
+                        src={items.image?.replace("/upload/", "/upload/w_500,q_auto,f_auto/")}
                         className="w-full h-full object-contain"
                       />
                     </div>
