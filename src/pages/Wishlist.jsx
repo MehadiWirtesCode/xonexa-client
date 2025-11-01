@@ -2,16 +2,23 @@ import { useEffect, useState } from "react";
 import { Heart, ShoppingCart, Trash2 } from "lucide-react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import toast from 'react-hot-toast'
-// ✅ Single Wishlist Item Component
+import toast from "react-hot-toast";
+
+//  Single Wishlist Item Component
 const WishlistItem = ({ item, onRemove }) => {
+  const optimizedImage = item.image
+    ? item.image.includes("/upload/")
+      ? item.image.replace("/upload/", "/upload/w_600,q_auto,f_auto/")
+      : item.image
+    : "https://placehold.co/400x400?text=No+Image";
+
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center bg-white p-4 sm:p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-100">
       {/* Product Image and Info */}
       <div className="flex flex-grow items-center mb-4 sm:mb-0">
         <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
           <img
-            src={item.imageurl || item.imageUrl}
+            src={optimizedImage}
             alt={item.name}
             className="w-full h-full object-cover"
             onError={(e) => {
@@ -36,7 +43,11 @@ const WishlistItem = ({ item, onRemove }) => {
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
         <button
-          onClick={() => toast.error(`Sorry this service not available now .I am still working on it`)}
+          onClick={() =>
+            toast.error(
+              `Sorry this service not available now .I am still working on it`
+            )
+          }
           className="flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition duration-150 w-full sm:w-auto"
         >
           <ShoppingCart className="w-4 h-4 mr-2" />
@@ -54,7 +65,7 @@ const WishlistItem = ({ item, onRemove }) => {
   );
 };
 
-// ✅ Wishlist List Component
+//  Wishlist List Component
 const WishlistList = ({ wishlist, onRemove }) => {
   return (
     <div className="max-w-4xl mx-auto space-y-4">
@@ -64,7 +75,7 @@ const WishlistList = ({ wishlist, onRemove }) => {
             key={item.id}
             item={item}
             onRemove={onRemove}
-          //  onMoveToCart={onMoveToCart}
+            //  onMoveToCart={onMoveToCart}
           />
         ))
       ) : (
@@ -78,10 +89,9 @@ const WishlistList = ({ wishlist, onRemove }) => {
   );
 };
 
-// ✅ Main Wishlist Page Component
+// Main Wishlist Page Component
 const WishlistPage = () => {
   const [wishlist, setWishlist] = useState([]);
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -113,21 +123,49 @@ const WishlistPage = () => {
 
   //  Remove Wishlist Item
   const handleRemoveItem = (id) => {
-    const item = wishlist.find((i) => i.id === id);
-    setWishlist(wishlist.filter((i) => i.id !== id));
-    setMessage(`${item?.name || "Item"} removed from wishlist.`);
-    setTimeout(() => setMessage(""), 3000);
+    const token = localStorage.getItem(`token`);
+
+    if (token) {
+      const decoded = jwtDecode(token);
+      const user_id = decoded.id;
+      axios
+        .delete(`${import.meta.env.VITE_PRODUCT_URL}/delete-wishlist-item`, {
+         data:{id,user_id}
+        })
+        .then((res) => {
+          toast.success(res.data?.message);
+          setWishlist((prev) => prev.filter((item) => item.id !== id));
+        })
+
+        .catch((err) => {
+          toast.error(
+            err.response?.data?.message ||
+              err.message ||
+              "Something went wrong when removing wishlist item"
+          );
+        });
+    } 
+
+    else{
+
+    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const updatedWishlist = storedWishlist.filter((item) => item.id !== id);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+    setWishlist(updatedWishlist);
+    toast.success("Item removed from wishlist");
+
+    }
   };
 
-//   //  Move Item to Cart
-//   const handleMoveToCart = (id) => {
-//     const item = wishlist.find((i) => i.id === id);
-//     if (!item) return;
+  //   //  Move Item to Cart
+  //   const handleMoveToCart = (id) => {
+  //     const item = wishlist.find((i) => i.id === id);
+  //     if (!item) return;
 
-//     setWishlist(wishlist.filter((i) => i.id !== id));
-//     setMessage(`${item.name} moved to your cart!`);
-//     setTimeout(() => setMessage(""), 3000);
-//   };
+  //     setWishlist(wishlist.filter((i) => i.id !== id));
+  //     setMessage(`${item.name} moved to your cart!`);
+  //     setTimeout(() => setMessage(""), 3000);
+  //   };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-8 font-['Inter']">
@@ -143,18 +181,11 @@ const WishlistPage = () => {
         </p>
       </div>
 
-      {/* Message Box */}
-      {message && (
-        <div className="max-w-4xl mx-auto mb-6 p-3 bg-indigo-500 text-white rounded-lg shadow-lg text-center font-medium transition-opacity duration-300 opacity-100">
-          {message}
-        </div>
-      )}
-
       {/* Wishlist List */}
       <WishlistList
         wishlist={wishlist}
         onRemove={handleRemoveItem}
-      //  onMoveToCart={handleMoveToCart}
+        //  onMoveToCart={handleMoveToCart}
       />
 
       {/* Footer */}
