@@ -150,7 +150,7 @@ const WishlistPage = () => {
     else{
 
     const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    const updatedWishlist = storedWishlist.filter((item) => item.id !== id);
+    const updatedWishlist = storedWishlist.filter((item) => item.product_id !== id);
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
     setWishlist(updatedWishlist);
     toast.success("Item removed from wishlist");
