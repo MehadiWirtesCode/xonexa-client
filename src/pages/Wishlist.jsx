@@ -54,7 +54,7 @@ const WishlistItem = ({ item, onRemove }) => {
           Move to Cart
         </button>
         <button
-          onClick={() => onRemove(item.id)}
+          onClick={() => onRemove(item.product_id)}
           className="flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium border border-red-400 text-red-600 hover:bg-red-50 transition duration-150 w-full sm:w-auto"
         >
           <Trash2 className="w-4 h-4 mr-2" />
@@ -72,7 +72,7 @@ const WishlistList = ({ wishlist, onRemove }) => {
       {wishlist.length > 0 ? (
         wishlist.map((item) => (
           <WishlistItem
-            key={item.id}
+            key={item.product_id}
             item={item}
             onRemove={onRemove}
             //  onMoveToCart={onMoveToCart}
@@ -128,13 +128,14 @@ const WishlistPage = () => {
     if (token) {
       const decoded = jwtDecode(token);
       const user_id = decoded.id;
+      console.log(id,user_id);
       axios
         .delete(`${import.meta.env.VITE_PRODUCT_URL}/delete-wishlist-item`, {
          data:{id,user_id}
         })
         .then((res) => {
           toast.success(res.data?.message);
-          setWishlist((prev) => prev.filter((item) => item.id !== id));
+          setWishlist((prev) => prev.filter((item) => item.product_id !== id));
         })
 
         .catch((err) => {
