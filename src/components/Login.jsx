@@ -70,12 +70,12 @@ export const Login = ({
 
         console.log("✅ Backend response:", res.data.message);
         setLoginOpen(false);
-        setIsLoggedIn(true);
         setAlert(true);
           if (res.data.token) {
          localStorage.setItem("token", res.data.token);
          localStorage.setItem("role", res.data.role);
         }
+        setIsLoggedIn(true);
         setMessage(res.data.message);
         window.history.back();
       } catch (err) {

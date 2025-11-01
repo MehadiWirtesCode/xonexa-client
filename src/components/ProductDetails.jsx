@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import CartSuccessModal from "../ModalAndErrorOrEmptyPages/CartSuccessModal";
 import { CartDataContext } from "./allProductDataConext/cartDataContext";
 import toast from "react-hot-toast";
@@ -40,7 +40,7 @@ export const ProductDetails = () => {
     if (token) {
       const decoded = jwtDecode(token);
       const user_id = decoded.id;
-
+      console.log(`hello user `,user_id);
       axios
         .post(`${import.meta.env.VITE_PRODUCT_URL}/setcartitem`, {
           product: productDetails,

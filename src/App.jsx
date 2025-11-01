@@ -44,6 +44,8 @@ const App = () => {
         setLoginOpen={setLoginOpen}
         signupOpen={signupOpen}
         setSignupOpen={setSignupOpen}
+        setIsLoggedIn={setIsLoggedIn}
+        isLoggedIn={isLoggedIn}
       />
       <Login
         loginOpen={loginOpen}
@@ -59,7 +61,7 @@ const App = () => {
         setLoginOpen={setLoginOpen}
         setAlert={setAlert}
         setMessage={setMessage}
-        setIsLoggedIn={setLoginOpen}
+        setIsLoggedIn={setIsLoggedIn}
       />
       {alert && <AlertModal setAlert={setAlert} message={message} />}
 

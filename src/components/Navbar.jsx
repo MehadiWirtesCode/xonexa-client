@@ -9,7 +9,7 @@ import { AllProductDataContext } from "./allProductDataConext/allProductConext";
 import { CartDataContext } from "./allProductDataConext/cartDataContext";
 import {jwtDecode} from 'jwt-decode'
 
-const Navbar = ({ loginOpen, setLoginOpen, signupOpen, setSignupOpen }) => {
+const Navbar = ({ loginOpen,setLoginOpen,signupOpen,setSignupOpen,setIsLoggedIn,isLoggedIn}) => {
 
     const navigate = useNavigate();
 
@@ -62,38 +62,87 @@ const Navbar = ({ loginOpen, setLoginOpen, signupOpen, setSignupOpen }) => {
   }, [searchTerm]);
 
 
- // Total cart item shows 
- useEffect(() => {
+ //Total cart item shows 
+useEffect(() => {
   const token = localStorage.getItem('token');
 
   if (token) {
     try {
       const decoded = jwtDecode(token);
       const user_id = decoded.id;
-      console.log(`userId`, user_id);
+      
+      console.log(`✅ Logged in userId:`, user_id); 
+
+      if (!user_id) {
+          throw new Error("User ID could not be extracted from token.");
+      }
 
       axios.get(`${import.meta.env.VITE_PRODUCT_URL}/gettotalcartcount`, {
         params: { user_id }
       })
       .then(res => {
-        setTotalCartItem(res.data?.count);
+        setTotalCartItem(Number(res.data?.count) || 0);
         console.log(res.data?.message);
       })
       .catch(err => {
-        console.log(err.response?.data?.message);
+
+        console.error("❌ Cart API Error:", err.response?.data?.message || err.message);
       });
 
     } catch (err) {
-      console.error("Invalid token", err);
-      setTotalCartItem(0); // fallback
+
+      console.error("❌ Invalid token detected or ID missing. Logging out...", err);
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("role"); 
+      
+
+      if (typeof setIsLoggedIn === 'function') {
+         setIsLoggedIn(false); 
+      }
+      
+      setTotalCartItem(0); 
     }
   } else {
+
     const localCart = JSON.parse(localStorage.getItem("cartItems")) || [];
     const totalQty = localCart.reduce((sum, item) => sum + item.quantity, 0);
     setTotalCartItem(totalQty);
     console.log("Total cart quantity loaded from localStorage");
   }
-}, [setTotalCartItem]);
+}, [setTotalCartItem,isLoggedIn]);
+
+//  useEffect(() => {
+//   const token = localStorage.getItem('token');
+
+//   if (token) {
+//     try {
+//       const decoded = jwtDecode(token);
+//       const user_id = decoded.id;
+//       console.log(`userId`, user_id);
+
+//       axios.get(`${import.meta.env.VITE_PRODUCT_URL}/gettotalcartcount`, {
+//         params: { user_id }
+//       })
+//       .then(res => {
+//         setTotalCartItem(res.data?.count);
+//         console.log(res.data?.message);
+//       })
+//       .catch(err => {
+//         console.log(err.response?.data?.message);
+//       });
+
+//     } catch (err) {
+//       console.error("Invalid token", err);
+//       setTotalCartItem(0); // fallback
+//     }
+//   } else {
+//     const localCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+//     const totalQty = localCart.reduce((sum, item) => sum + item.quantity, 0);
+//     setTotalCartItem(totalQty);
+//     console.log("Total cart quantity loaded from localStorage");
+//   }
+// }, [setTotalCartItem]);
 
 
   return (
