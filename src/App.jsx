@@ -16,7 +16,8 @@ import { Toaster } from "react-hot-toast";
 import ContactUs from "./pages/ContactUs";
 import AboutUsPage from "./components/FooterComponenet/Aboutus";
 import FeaturesPage from "./components/FooterComponenet/FeaturesPage";
-import { WishlistList } from "./pages/Wishlist";
+import WishlistPage from "./pages/Wishlist";
+
 
 const App = () => {
   const [alert, setAlert] = useState(false);
@@ -93,7 +94,7 @@ const App = () => {
 
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/features-page" element={<FeaturesPage />} />
-        <Route path="/wishlist" element={<WishlistList/>}/>
+        <Route path="/wishlist" element={<WishlistPage/>}/>
       </Routes>
       <Toaster />
       <Footer />
