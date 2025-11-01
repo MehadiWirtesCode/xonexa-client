@@ -16,6 +16,7 @@ import { Toaster } from "react-hot-toast";
 import ContactUs from "./pages/ContactUs";
 import AboutUsPage from "./components/FooterComponenet/Aboutus";
 import FeaturesPage from "./components/FooterComponenet/FeaturesPage";
+import { WishlistList } from "./pages/Wishlist";
 
 const App = () => {
   const [alert, setAlert] = useState(false);
@@ -23,7 +24,6 @@ const App = () => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
 
-  //const isLoggedIn = !!localStorage.getItem("token");
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
   // Token change watcher
@@ -93,6 +93,7 @@ const App = () => {
 
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/features-page" element={<FeaturesPage />} />
+        <Route path="/wishlist" element={<WishlistList/>}/>
       </Routes>
       <Toaster />
       <Footer />

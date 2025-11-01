@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-
 export const ProductsContainer = ({ products = [] }) => {
   const navigate = useNavigate();
 
@@ -64,6 +63,7 @@ export const ProductsContainer = ({ products = [] }) => {
                   {product.discount}% OFF
                 </span>
               )}
+
             </div>
           </div>
         );

@@ -5,6 +5,7 @@ import {jwtDecode} from "jwt-decode";
 import CartSuccessModal from "../ModalAndErrorOrEmptyPages/CartSuccessModal";
 import { CartDataContext } from "./allProductDataConext/cartDataContext";
 import toast from "react-hot-toast";
+import { CiHeart } from "react-icons/ci";
 
 export const ProductDetails = () => {
   const { id } = useParams();
@@ -102,6 +103,51 @@ export const ProductDetails = () => {
   const optimizedImages = productDetails?.images?.map(img =>
   img.replace("/upload/", "/upload/w_800,q_auto,f_auto/")
  );
+
+
+ //handle wishlist item 
+const handelWishlist =()=>{
+  const token = localStorage.getItem(`token`);
+
+  if(token){
+    const decoded = jwtDecode(token);
+    const user_id = decoded.id;
+
+    if(!user_id) {
+      console.log("no user id found")
+      return
+    };
+
+    axios.post(`${import.meta.env.VITE_PRODUCT_URL}/set-wishlist-item`,{productDetails,user_id})
+    .then(res =>
+      toast.success(res.data?.message)
+    )
+    .catch(err =>{
+      toast.error(err.response?.data?.message || err.message || "something went wrong")
+    })
+  }
+
+  else{
+const existingWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+const alreadyExists = existingWishlist.some(item => item.id === productDetails.id);
+
+if (alreadyExists) {
+  toast.error("This item is already in your wishlist");
+  return;
+}
+existingWishlist.push({
+  id: productDetails.id,
+  image: productDetails.images[0],
+  price: productDetails.price,
+  name: productDetails.name
+});
+
+localStorage.setItem("wishlist", JSON.stringify(existingWishlist));
+toast.success("Item added to wishlist");
+
+  }
+}
+
 
   return (
     <>
@@ -229,7 +275,7 @@ export const ProductDetails = () => {
                 </h1>
               )}
             </div>
-
+              
             <div className="mt-8 space-y-4">
               <button
                 onClick={handelAddCart}
@@ -239,11 +285,25 @@ export const ProductDetails = () => {
                 Add to cart
               </button>
               <button
+              onClick={()=> toast.error(`Sorry! this service isn't available now`)}
                 type="button"
                 className="w-full px-4 py-2.5 cursor-pointer border border-slate-800 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-md"
               >
                 Buy now
               </button>
+
+       
+              <button
+                onClick={handelWishlist}
+                type="button"
+                className="w-full px-4 py-2.5 cursor-pointer border border-slate-800 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-md flex justify-center items-center gap-5"
+              >
+              <span>
+                Add to wishlist
+              </span>
+              <CiHeart className="text-3xl text-red-600"/>
+              </button>
+
             </div>
 
             <div className="mt-8">

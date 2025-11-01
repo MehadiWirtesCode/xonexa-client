@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { AllProductDataContext } from "./allProductDataConext/allProductConext";
 import { CartDataContext } from "./allProductDataConext/cartDataContext";
 import {jwtDecode} from 'jwt-decode'
+import { CiHeart } from "react-icons/ci";
 
 const Navbar = ({ loginOpen,setLoginOpen,signupOpen,setSignupOpen,setIsLoggedIn,isLoggedIn}) => {
 
@@ -269,6 +270,13 @@ useEffect(() => {
 
               </span>
             </NavLink>
+            
+            {/* wishlist */}
+            <NavLink
+               to="/wishlist">
+                <CiHeart className="hidden md:flex text-3xl text-red-500 stroke-[1px] ml-2" />
+            </NavLink>
+
 
             {/* Mobile Menu Button */}
             <button
@@ -331,6 +339,14 @@ useEffect(() => {
                 className="text-gray-700 hover:text-indigo-600 active:bg-indigo-7"
               >
                 Home
+              </NavLink>
+
+              <NavLink
+                to="/wishlist"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="text-gray-700 hover:text-indigo-600 active:bg-indigo-7"
+              >
+                wishlist
               </NavLink>
 
            {/* Profile */}
