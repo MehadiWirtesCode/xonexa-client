@@ -32,7 +32,7 @@ const WishlistItem = ({ item, onRemove }) => {
         {/* Text Details */}
         <div className="ml-4 flex-1 min-w-0">
           <p className="text-lg font-semibold text-gray-800 truncate">
-            {item.name}
+            {item?.product_name}
           </p>
           <p className="text-2xl font-bold text-indigo-600 mt-1">
             ${item.price?.toFixed(2) || "0.00"}
