@@ -148,7 +148,6 @@ toast.success("Item added to wishlist");
   }
 }
 
-
   return (
     <>
       <div className="p-2 lg:p-20">
@@ -296,7 +295,7 @@ toast.success("Item added to wishlist");
               <button
                 onClick={handelWishlist}
                 type="button"
-                className="w-full px-4 py-2.5 cursor-pointer border border-slate-800 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-md flex justify-center items-center gap-5"
+                className="w-full px-4 py-2.5 cursor-pointer border border-slate-800 bg-slate-800 hover:bg-slate-900 active:bg-slate-900 text-white text-sm font-medium rounded-md flex justify-center items-center gap-5"
               >
               <span>
                 Add to wishlist
