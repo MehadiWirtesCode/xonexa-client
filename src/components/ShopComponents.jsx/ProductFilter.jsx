@@ -215,7 +215,8 @@ export const ProductFilter = () => {
         </aside>
 
         {/* Mobile Filter Drawer */}
-        <MobileFilterDrawer isOpen={isMobileDrawerOpen} onClose={toggleDrawer}>
+        <MobileFilterDrawer isOpen={isMobileDrawerOpen} onClose={toggleDrawer}
+        handleClearFilters={handleClearFilters}>
           {FilterContent}
         </MobileFilterDrawer>
 

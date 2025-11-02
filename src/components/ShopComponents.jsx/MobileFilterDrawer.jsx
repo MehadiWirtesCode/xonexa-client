@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MobileFilterDrawer = ({ isOpen, onClose, children }) => {
+const MobileFilterDrawer = ({ isOpen, onClose, children ,handleClearFilters}) => {
 
   const drawerClasses = `
     fixed top-0 right-0 z-50 h-full w-full max-w-72 sm:max-w-80 transform transition-transform duration-300 ease-in-out lg:hidden
@@ -43,16 +43,12 @@ const MobileFilterDrawer = ({ isOpen, onClose, children }) => {
 
           {/* Footer (Action Buttons) */}
           <div className="p-4 border-t flex flex-col space-y-2 flex-shrink-0 bg-white shadow-lg">
+
             <button 
-              onClick={onClose} 
-              className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-150"
-            >
-              Apply Filters
-            </button>
-            <button 
+            onClick={handleClearFilters}
               className="w-full text-sm font-medium text-red-600 hover:text-red-700 transition duration-150"
             >
-              Clear All
+              Clear All Filters
             </button>
           </div>
         </div>
