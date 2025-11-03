@@ -14,7 +14,7 @@ import { useContext } from "react";
 import { CartDataContext } from "../components/allProductDataConext/cartDataContext";
 import toast from "react-hot-toast";
 
-//  REUSABLE COMPONENTS
+//  Input fields attributes
 const InputField = ({
   id,
   label,
@@ -56,8 +56,6 @@ const InputField = ({
     </div>
   </div>
 );
-
-//  MAIN CHECKOUT PAGE COMPONENT
 
 const Checkout = () => {
   const token = localStorage.getItem("token");
@@ -118,7 +116,7 @@ const Checkout = () => {
 
     setTimeout(() => {
       setIsProcessing(false);
-    
+
       axios
         .post(`${import.meta.env.VITE_API_URL}/setcheckoutdetails`, {
           user_id,
@@ -130,7 +128,7 @@ const Checkout = () => {
           setCheckoutItems([]);
           setSubtotal(0);
           setTotalCartItem(0);
-           setIsOrderPlaced(true);
+          setIsOrderPlaced(true);
           console.log(res.data.message);
         })
 
@@ -196,9 +194,7 @@ const Checkout = () => {
           onSubmit={handleSubmit}
           className="lg:grid lg:grid-cols-5 lg:gap-10"
         >
-          {/* LEFT COLUMN: Form Fields (Takes 3/5 width on large screens) */}
           <div className="lg:col-span-3 space-y-8 p-6 bg-white  rounded-xl shadow-xl">
-            {/* 1. Contact Information */}
             <div>
               <h2 className="text-2xl font-bold text-gray-900  mb-4 flex items-center">
                 <Mail className="w-6 h-6 mr-2 text-indigo-500" />
@@ -216,7 +212,7 @@ const Checkout = () => {
               />
             </div>
 
-            {/* 2. Shipping Details */}
+            {/* Shipping details start from here*/}
             <div>
               <h2 className="text-2xl font-bold text-gray-900  mb-4 flex items-center">
                 <MapPin className="w-6 h-6 mr-2 text-indigo-500" />
@@ -256,7 +252,7 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* 3. Payment Details */}
+            {/* 3. Payment details start from here*/}
             <div>
               <h2 className="text-2xl font-bold text-gray-900  mb-4 flex items-center">
                 <CreditCard className="w-6 h-6 mr-2 text-indigo-500" />
@@ -265,7 +261,7 @@ const Checkout = () => {
               <InputField
                 id="cardNumber"
                 label="Card Number"
-                type="tel" // Use tel for mobile-friendly numeric input
+                type="tel"
                 placeholder="XXXX XXXX XXXX XXXX"
                 value={formData.cardNumber}
                 onChange={handleInputChange}
@@ -295,14 +291,14 @@ const Checkout = () => {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Order Summary (Takes 2/5 width on large screens) */}
+          {/* Right section start */}
           <div className="lg:col-span-2 mt-8 lg:mt-0">
             <div className="sticky top-8 p-6 bg-white  rounded-xl shadow-xl">
               <h2 className="text-2xl font-bold text-gray-900  mb-6">
                 Order Summary
               </h2>
 
-              {/* Cart Items List */}
+              {/* cart items list  */}
               <div className="space-y-4 border-b border-gray-200  pb-4 mb-4">
                 {checkoutItems.map((item) => (
                   <div
@@ -334,7 +330,7 @@ const Checkout = () => {
                 ))}
               </div>
 
-              {/* Price Breakdown */}
+              {/* Price overview*/}
               <div className="space-y-2 mb-6 text-gray-700 ">
                 <div className="flex justify-between">
                   <span>Subtotal:</span>
@@ -360,7 +356,6 @@ const Checkout = () => {
                 </div>
               </div>
 
-              {/* Total */}
               <div className="pt-4 border-t-2 border-indigo-200  flex justify-between items-center">
                 <span className="text-xl font-bold text-gray-900 ">
                   Order Total:
@@ -370,7 +365,6 @@ const Checkout = () => {
                 </span>
               </div>
 
-              {/* Place Order Button */}
               <button
                 type="submit"
                 disabled={!isFormValid || isProcessing || subtotal <= 0}

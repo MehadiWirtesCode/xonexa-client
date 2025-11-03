@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UsersContext } from "../../contextApi/UserContextApi";
 
-// --- Confirmation Modal ---
 const ConfirmationModal = ({
   user,
   deleteUserModal,
@@ -49,7 +48,7 @@ const ConfirmationModal = ({
   );
 };
 
-// --- Table Row Component ---
+//  Table Row Component
 const TableRow = ({ user, onDelete }) => {
   const [deleteUserModal, setDeleteUserModal] = useState(false);
 
@@ -69,11 +68,10 @@ const TableRow = ({ user, onDelete }) => {
               : "bg-blue-100 text-blue-800"
           }`}
         >
-          {user.role === "1"?"admin":"user"}
+          {user.role === "1" ? "admin" : "user"}
         </span>
       </td>
 
-      {/* Delete Button */}
       <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
         <button
           onClick={() => setDeleteUserModal(true)}
@@ -96,7 +94,6 @@ const TableRow = ({ user, onDelete }) => {
           </svg>
         </button>
 
-        {/* Confirmation Modal */}
         {deleteUserModal && (
           <ConfirmationModal
             user={user}
@@ -110,12 +107,11 @@ const TableRow = ({ user, onDelete }) => {
   );
 };
 
-// --- User List Modal ---
+//  User List Modal
 export const UserListModal = () => {
   const { users, setUsers, usersListModal, setUsersListModal } =
     useContext(UsersContext);
 
-  // Fetch all users
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/getallusers`)
@@ -128,7 +124,7 @@ export const UserListModal = () => {
       });
   }, [setUsers]);
 
-  // Delete user handler
+  //handle delete user
   const handleDeleteUser = async (userId) => {
     try {
       const res = await axios.delete(
@@ -150,12 +146,11 @@ export const UserListModal = () => {
       role="dialog"
       aria-labelledby="modalTitle"
     >
-      {/* Modal Content */}
       <div
         id="modalContent"
         className={`bg-white rounded-xl shadow-2xl w-full max-w-5xl mx-4 my-8 max-h-[90vh] flex flex-col transform duration-300`}
       >
-        {/* Header */}
+        {/* Header section start */}
         <div className="p-6 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white rounded-t-xl z-10">
           <h2 id="modalTitle" className="text-2xl font-bold text-gray-800">
             User List
@@ -181,7 +176,7 @@ export const UserListModal = () => {
           </button>
         </div>
 
-        {/* Body */}
+        {/* Body section start*/}
         <div className="p-6 flex-grow overflow-y-auto">
           {users.length === 0 ? (
             <p className="text-center text-gray-500 py-10">
@@ -211,7 +206,7 @@ export const UserListModal = () => {
                     <TableRow
                       key={user.user_id}
                       user={user}
-                      onDelete={()=>handleDeleteUser(user.user_id)}
+                      onDelete={() => handleDeleteUser(user.user_id)}
                     />
                   ))}
                 </tbody>
@@ -223,6 +218,3 @@ export const UserListModal = () => {
     </div>
   );
 };
-
-
-

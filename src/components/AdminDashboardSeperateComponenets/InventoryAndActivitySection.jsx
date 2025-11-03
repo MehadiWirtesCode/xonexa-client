@@ -6,20 +6,19 @@ import toast from "react-hot-toast";
 const InventoryAndActivitySection = () => {
   const [outOfStockProducts, setOutOfStockProducts] = useState([]);
   const [activity, setActivity] = useState([]);
-  const [loadingStock, setLoadingStock] = useState(true); 
+  const [loadingStock, setLoadingStock] = useState(true);
 
   useEffect(() => {
-
-    setLoadingStock(true); 
+    setLoadingStock(true);
     axios
       .get(`${import.meta.env.VITE_PRODUCT_URL}/get-outofstock-products`)
       .then((res) => {
         setOutOfStockProducts(res.data.products);
-        setLoadingStock(false); 
+        setLoadingStock(false);
       })
       .catch((err) => {
         toast.error(err.response?.data?.message || "Error fetching data");
-        setLoadingStock(false); 
+        setLoadingStock(false);
       });
   }, []);
 
@@ -43,7 +42,9 @@ const InventoryAndActivitySection = () => {
       })
       .then((res) => {
         toast.success(res.data.message);
-        setActivity((prev) => prev.filter((order) => order.order_id !== order_id));
+        setActivity((prev) =>
+          prev.filter((order) => order.order_id !== order_id)
+        );
       })
       .catch((err) => {
         toast.error(err.response?.data?.message || "Error updating status");
@@ -70,21 +71,21 @@ const InventoryAndActivitySection = () => {
                 key={product._id}
                 className="flex flex-col p-3 bg-red-50 rounded-lg border border-red-200 hover:shadow-sm transition"
               >
-                {/* Product Name */}
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center">
                     <span className="w-2 h-2 rounded-full bg-red-500 mr-3 shrink-0"></span>
                     <p className="text-gray-800 font-medium text-sm truncate max-w-[120px]">
                       {product.name}
                     </p>
-                    <p className="text-green-600 ml-3 font-bold">({product?.category})</p>
+                    <p className="text-green-600 ml-3 font-bold">
+                      ({product?.category})
+                    </p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-bold text-red-600">Stock: 0</p>
                   </div>
                 </div>
 
-                {/* Sizes with zero stock */}
                 {product.zeroSizes &&
                   Object.keys(product.zeroSizes).length > 0 && (
                     <div className="flex flex-wrap gap-2 text-xs text-red-700">
@@ -110,7 +111,7 @@ const InventoryAndActivitySection = () => {
         )}
       </div>
 
-      {/* Recent orders */}
+      {/* Recent orders section start here */}
       <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
         <h3 className="text-xl font-bold text-gray-800 mb-5">Recent Orders</h3>
 
@@ -136,7 +137,9 @@ const InventoryAndActivitySection = () => {
                     <td className="px-4 py-3 font-medium text-gray-800">
                       {item.user_id}
                     </td>
-                    <td className="px-4 py-3 text-gray-600">{item.created_at}</td>
+                    <td className="px-4 py-3 text-gray-600">
+                      {item.created_at}
+                    </td>
                     <td className="px-4 py-3 text-center font-semibold text-gray-800">
                       {item.total !== "N/A" ? `$${item.total}` : "--"}
                     </td>

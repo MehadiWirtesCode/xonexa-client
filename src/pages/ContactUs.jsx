@@ -7,9 +7,7 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
-// --- REUSABLE FORM COMPONENTS ---
 
-// Generic Input Field Component
 const InputField = ({
   id,
   label,
@@ -41,7 +39,7 @@ const InputField = ({
   </div>
 );
 
-// Generic Text Area Component
+
 const TextAreaField = ({
   id,
   label,
@@ -72,7 +70,7 @@ const TextAreaField = ({
   </div>
 );
 
-// --- CONTACT INFO BLOCK COMPONENT ---
+//  ContactInfoBlock components start  
 
 const ContactInfoBlock = ({ Icon, title, content }) => (
   <div className="flex items-start space-x-4 p-4 rounded-lg bg-gray-50  transition duration-300 hover:bg-gray-100 ">
@@ -86,7 +84,6 @@ const ContactInfoBlock = ({ Icon, title, content }) => (
   </div>
 );
 
-// --- MAIN CONTACT US COMPONENT ---
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -106,18 +103,16 @@ const ContactUs = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API submission delay
+    
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
 
-      // Reset form after a few seconds or allow user to navigate
       setTimeout(() => {
         setIsSubmitted(false);
         setFormData({ name: "", email: "", subject: "", message: "" });
       }, 5000);
 
-      // Log form data (In a real app, this would be your API call)
       console.log("Contact Form Submitted:", formData);
     }, 1500);
   };
@@ -136,8 +131,7 @@ const ContactUs = () => {
         </header>
 
         {/* Responsive Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          {/* LEFT COLUMN: Contact Form */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">         
           <div className="lg:col-span-2 p-6 bg-white  rounded-2xl shadow-2xl">
             <h2 className="text-3xl font-bold text-gray-900  mb-6 flex items-center">
               <MessageSquare className="w-6 h-6 mr-2 text-indigo-500" />
@@ -194,7 +188,6 @@ const ContactUs = () => {
                   required
                 />
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -242,7 +235,7 @@ const ContactUs = () => {
             )}
           </div>
 
-          {/* RIGHT COLUMN: Contact Details */}
+          {/*Contact details side*/}
           <div className="lg:col-span-1 space-y-6">
             <h2 className="text-2xl font-bold text-gray-900  mb-4">
               Our Details
@@ -279,7 +272,7 @@ const ContactUs = () => {
               />
             </div>
 
-            {/* social icons Placeholder */}
+            {/* social icons */}
             <div className="w-full h-20 bg-gray-200 rounded-2xl shadow-xl flex items-center justify-evenly text-gray-500  text-sm">
               <a
                 href="https://www.facebook.com/share/1DGT6Mu3F8/"

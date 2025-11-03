@@ -3,7 +3,6 @@ import axios from "axios";
 import { X } from "lucide-react"; // For the close icon
 
 const ProductModal = ({ isOpen, onClose, setAlert, setMessage }) => {
-  // Initial state for form data
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -17,16 +16,13 @@ const ProductModal = ({ isOpen, onClose, setAlert, setMessage }) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Don't render the modal if it's not open
   if (!isOpen) return null;
 
-  // Handles changes for all text/number input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handles changes for individual size stock inputs
   const handleSizeChange = (size, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -34,7 +30,6 @@ const ProductModal = ({ isOpen, onClose, setAlert, setMessage }) => {
     }));
   };
 
-  // Handles file selection for product images
   const handleFilesChange = (e) => {
     setFormData((prev) => ({ ...prev, images: Array.from(e.target.files) }));
   };
@@ -56,16 +51,15 @@ const ProductModal = ({ isOpen, onClose, setAlert, setMessage }) => {
     formData.images.forEach((file) => fd.append("images", file));
 
     try {
-      // API call to add product
       const res = await axios.post(
         `${import.meta.env.VITE_PRODUCT_URL}/addproduct`,
         fd,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-      // Set alert and message on success
+
       setAlert(true);
       setMessage(res.data.message);
-      // Reset form data after successful submission
+
       setFormData({
         name: "",
         description: "",
@@ -75,30 +69,27 @@ const ProductModal = ({ isOpen, onClose, setAlert, setMessage }) => {
         sizes: { S: 0, M: 0, L: 0, XL: 0 },
         images: [],
       });
-      onClose(); // Close the modal
+      onClose();
     } catch (error) {
       console.error(error.response?.data?.message);
 
       setAlert(true);
       setMessage(error.response?.data?.message || "Error adding product!");
     } finally {
-      // 💡 রিকোয়েস্ট সফল বা ব্যর্থ যাই হোক, লোডিং স্টেট শেষ করুন
       setIsSubmitting(false);
     }
   };
 
   return (
-    // Modal Overlay
     <div
       className="fixed inset-0 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
-      {/* Modal Content */}
       <div
         className="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 relative transform transition-all duration-300 ease-out max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Header */}
+        {/* Modal header start*/}
         <div className="flex justify-between items-center border-b border-gray-200 pb-4 mb-5">
           <h2 className="text-2xl font-semibold text-gray-800">
             Add New Product
@@ -115,9 +106,6 @@ const ProductModal = ({ isOpen, onClose, setAlert, setMessage }) => {
 
         {/* Product Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* ... (Other form fields are unchanged) ... */}
-
-          {/* Product Name */}
           <div>
             <label
               htmlFor="name"
@@ -136,7 +124,6 @@ const ProductModal = ({ isOpen, onClose, setAlert, setMessage }) => {
             />
           </div>
 
-          {/* Description */}
           <div>
             <label
               htmlFor="description"
@@ -156,7 +143,6 @@ const ProductModal = ({ isOpen, onClose, setAlert, setMessage }) => {
             />
           </div>
 
-          {/* Category Selector */}
           <div>
             <label
               htmlFor="category"
@@ -189,7 +175,6 @@ const ProductModal = ({ isOpen, onClose, setAlert, setMessage }) => {
             </select>
           </div>
 
-          {/* Price, Discount, and Total Stock */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label
@@ -246,7 +231,7 @@ const ProductModal = ({ isOpen, onClose, setAlert, setMessage }) => {
             </div>
           </div>
 
-          {/* Sizes Stock */}
+          {/* Sizes Stock input field*/}
           <div>
             <p className="block text-sm font-medium text-gray-700 mb-2">
               Stock by Size
@@ -273,7 +258,7 @@ const ProductModal = ({ isOpen, onClose, setAlert, setMessage }) => {
             </div>
           </div>
 
-          {/* Image Upload */}
+          {/* Image upload field*/}
           <div>
             <label
               htmlFor="images"
@@ -296,7 +281,6 @@ hover:file:bg-indigo-100 cursor-pointer transition duration-150"
             />
           </div>
 
-          {/* Preview Images */}
           {formData.images.length > 0 && (
             <div className="flex gap-2 flex-wrap pt-2">
               {formData.images.map((file, i) => (
@@ -310,7 +294,6 @@ hover:file:bg-indigo-100 cursor-pointer transition duration-150"
             </div>
           )}
 
-          {/* Action Buttons */}
           <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 mt-6">
             <button
               type="button"
@@ -321,7 +304,6 @@ hover:file:bg-indigo-100 cursor-pointer transition duration-150"
             </button>
             <button
               type="submit"
-              // 💡 লোডিং স্টেট অনুযায়ী ডিসেবল করা হয়েছে
               disabled={isSubmitting}
               className={`px-5 py-2 rounded-lg text-white transition duration-150 font-medium shadow-md flex items-center justify-center ${
                 isSubmitting
@@ -329,7 +311,6 @@ hover:file:bg-indigo-100 cursor-pointer transition duration-150"
                   : "bg-indigo-600 hover:bg-indigo-700"
               }`}
             >
-              {/* 💡 লোডার ডিসপ্লে */}
               {isSubmitting ? (
                 <>
                   <svg

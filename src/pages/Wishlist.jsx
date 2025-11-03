@@ -29,7 +29,6 @@ const WishlistItem = ({ item, onRemove }) => {
           />
         </div>
 
-        {/* Text Details */}
         <div className="ml-4 flex-1 min-w-0">
           <p className="text-lg font-semibold text-gray-800 truncate">
             {item?.product_name}
@@ -40,7 +39,6 @@ const WishlistItem = ({ item, onRemove }) => {
         </div>
       </div>
 
-      {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
         <button
           onClick={() =>
@@ -158,15 +156,6 @@ const WishlistPage = () => {
     }
   };
 
-  //   //  Move Item to Cart
-  //   const handleMoveToCart = (id) => {
-  //     const item = wishlist.find((i) => i.id === id);
-  //     if (!item) return;
-
-  //     setWishlist(wishlist.filter((i) => i.id !== id));
-  //     setMessage(`${item.name} moved to your cart!`);
-  //     setTimeout(() => setMessage(""), 3000);
-  //   };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-8 font-['Inter']">
@@ -189,7 +178,6 @@ const WishlistPage = () => {
         //  onMoveToCart={handleMoveToCart}
       />
 
-      {/* Footer */}
       {wishlist.length > 0 && (
         <div className="max-w-4xl mx-auto mt-8 pt-4 border-t border-gray-200 text-right">
           <p className="text-gray-500 text-sm">

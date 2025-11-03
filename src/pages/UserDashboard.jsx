@@ -7,7 +7,7 @@ import Sidebar from "../components/userDashboardSeperateComponents/Sidebar";
 import { jwtDecode } from "jwt-decode";
 import { IoDiamondOutline } from "react-icons/io5";
 
-const UserDashboard = ({setIsLoggedIn}) => {
+const UserDashboard = ({ setIsLoggedIn }) => {
   // State for mobile menu control (Sidebar visibility)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -60,10 +60,14 @@ const UserDashboard = ({setIsLoggedIn}) => {
 
   return (
     <div className="min-h-screen flex bg-gray-100 font-inter">
-      <Sidebar isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} setIsLoggedIn={setIsLoggedIn} />
+      <Sidebar
+        isMenuOpen={isMenuOpen}
+        toggleMenu={toggleMenu}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
       <div className="flex-1 overflow-y-auto">
-        {/* Mobile Header Bar (Only visible on mobile) */}
+        {/* Mobile header part start */}
         <div className="bg-white p-4 sticky top-0 z-30 shadow-md md:hidden flex justify-between items-center">
           <h2 className="text-xl font-extrabold text-orange-500">Dashboard</h2>
           <button
@@ -83,7 +87,7 @@ const UserDashboard = ({setIsLoggedIn}) => {
             Welcome back to your administrative control panel.
           </p>
 
-          {/* 2. Summary Stats Grid */}
+          {/* Summary Stats  start*/}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             {summary.map((stat) => {
               return (
@@ -99,35 +103,33 @@ const UserDashboard = ({setIsLoggedIn}) => {
             })}
           </div>
 
-          {/* 3. Main Layout*/}
+          {/* 3. Main Layout start */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left Column: Recent Orders */}
+            {/* Recent Orders */}
             <div className="lg:col-span-2">
               <OrderHistoryCard />
             </div>
 
-            {/* Right Column: Profile Card */}
+            {/*Profile Card */}
             <div className="lg:col-span-1">
               <div className="bg-white p-6 rounded-xl shadow-lg h-full">
                 <h3 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-3">
                   Account Details
                 </h3>
                 <div className="space-y-4">
-                  {/* Detail Item 1 */}
                   <div className="flex items-center justify-between text-sm text-gray-600">
                     <p className="flex items-center font-medium">
                       <Icons.User className="w-4 h-4 mr-2 text-orange-500" />{" "}
                       Membership:
                     </p>
                     <div className="flex justify-center items-center gap-2">
-                    <IoDiamondOutline className={`text-xl ${text}`}/>
-                    <span className={`font-semibold ${text}`}>
-                      {membership}
-                    </span>
+                      <IoDiamondOutline className={`text-xl ${text}`} />
+                      <span className={`font-semibold ${text}`}>
+                        {membership}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Detail Item 2 */}
                   <div className="flex items-center justify-between text-sm text-gray-600">
                     <p className="flex items-center font-medium">
                       <Icons.Settings className="w-4 h-4 mr-2 text-orange-500" />{" "}

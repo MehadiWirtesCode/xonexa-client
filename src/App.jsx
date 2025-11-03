@@ -18,7 +18,6 @@ import AboutUsPage from "./components/FooterComponenet/Aboutus";
 import FeaturesPage from "./components/FooterComponenet/FeaturesPage";
 import WishlistPage from "./pages/Wishlist";
 
-
 const App = () => {
   const [alert, setAlert] = useState(false);
   const [message, setMessage] = useState("");
@@ -27,7 +26,7 @@ const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
-  // Token change watcher
+  // token change handling for login logout 
   useEffect(() => {
     const handleStorageChange = () => {
       setIsLoggedIn(!!localStorage.getItem("token"));
@@ -70,13 +69,23 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route
           path="/userdashboard"
-          element={isLoggedIn ? <UserDashboard setIsLoggedIn={setIsLoggedIn}/> : <Navigate to="/" />}
+          element={
+            isLoggedIn ? (
+              <UserDashboard setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
         <Route
           path="/admindashboard"
           element={
             isLoggedIn ? (
-              <AdminDashboard setAlert={setAlert} setMessage={setMessage} setIsLoggedIn={setIsLoggedIn}/>
+              <AdminDashboard
+                setAlert={setAlert}
+                setMessage={setMessage}
+                setIsLoggedIn={setIsLoggedIn}
+              />
             ) : (
               <Navigate to="/" />
             )
@@ -94,7 +103,7 @@ const App = () => {
 
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/features-page" element={<FeaturesPage />} />
-        <Route path="/wishlist" element={<WishlistPage/>}/>
+        <Route path="/wishlist" element={<WishlistPage />} />
       </Routes>
       <Toaster />
       <Footer />

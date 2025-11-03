@@ -36,7 +36,7 @@ export default function AdminDashboard({ setAlert, setMessage ,setIsLoggedIn}) {
   }
   return (
     <div className="flex  bg-gray-100 min-h-screen antialiased font-inter">
-      {/* Sidebar */}
+      {/* Sidebar start from here */}
       <aside
         className={`${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -70,10 +70,10 @@ export default function AdminDashboard({ setAlert, setMessage ,setIsLoggedIn}) {
             <SidebarItem
               key="AddProduct"
               name="Add Product"
-              Icon={sidebarLinks.find((link) => link.name === "Products").Icon} // Use Package Icon
+              Icon={sidebarLinks.find((link) => link.name === "Products").Icon}
               onClick={() => {
                 setIsModalOpen(true);
-                setIsSidebarOpen(false); // Close sidebar on mobile
+                setIsSidebarOpen(false); 
               }}
               isAction={true}
             />
@@ -102,9 +102,9 @@ export default function AdminDashboard({ setAlert, setMessage ,setIsLoggedIn}) {
         </div>
       </aside>
 
-      {/* Main Content */}
+      {/* Main content start from here */}
       <div className="flex-1 flex flex-col lg:ml-64 transition-all duration-300">
-        {/* Navbar */}
+        
         <header className="flex items-center justify-between bg-white p-4 md:p-6 shadow-sm sticky top-0 z-30">
           <div className="flex items-center gap-3">
             <button
@@ -125,7 +125,7 @@ export default function AdminDashboard({ setAlert, setMessage ,setIsLoggedIn}) {
           </div>
         </header>
 
-        {/* Dashboard Content */}
+        {/* all contents of dashboard*/}
         <main className="flex-1 p-4 md:p-8 space-y-8 overflow-y-auto">
           <StatCard
             title="total sales"
@@ -138,7 +138,7 @@ export default function AdminDashboard({ setAlert, setMessage ,setIsLoggedIn}) {
         </main>
       </div>
 
-      {/* Product Modal */}
+    
       <ProductModal
         setAlert={setAlert}
         setMessage={setMessage}
